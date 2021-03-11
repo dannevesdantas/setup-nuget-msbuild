@@ -1,4 +1,4 @@
-name: 'setup-nuget-msbuild-selfhrunner'
+name: 'setup-nuget-msbuild-selfhostrun'
 description: 'This GitHub action is a combination of NuGet/setup-nuget and microsoft/setup-msbuild for use with self hosted Windows based runners'
 author: 'dannevesdantas'
 branding:
