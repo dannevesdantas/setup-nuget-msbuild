@@ -1,0 +1,45 @@
+name: 'setup-nuget-msbuild-selfhrunner'
+description: 'This GitHub action is a combination of NuGet/setup-nuget and microsoft/setup-msbuild for use with self hosted Windows based runners'
+author: 'dannevesdantas'
+branding:
+  color: purple
+  icon: terminal
+inputs:
+  vswhere-path:
+    description: 'Folder location of where vswhere.exe is located if a self-hosted agent'
+    required: false
+    default: 'C:\Program Files (x86)\Microsoft Visual Studio\Installer'
+  vs-version:
+    description: 'Version of Visual Studio to search; defaults to latest if not specified'
+    required: false
+  nuget-version:
+    description: 'NuGet version to install. Can be `latest`, `preview`, a concrete version like `5.3.1`, or a semver range specifier like `5.x`.'
+    default: 'latest'
+  nuget-api-key:
+    description: 'NuGet API Key to configure.'
+  nuget-api-key-source:
+    description: 'Source to scope the NuGet API Key to.'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+      with:
+        # When running on a self-hosted runner, its necessary to set the path to the folder where Visual Studio vswhere.exe is located
+        vswhere-path: '${{ inputs.vswhere-path }}'
+        vs-version: '${{ inputs.vs-version }}'
+      env:
+        # Its requireded to set ACTIONS_ALLOW_UNSECURE_COMMANDS=true when running on a self-hosted runner
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.2
+      with:
+        nuget-version: '${{ inputs.nuget-version }}'
+        nuget-api-key: '${{ inputs.nuget-api-key }}'
+        nuget-api-key-source: '${{ inputs.nuget-api-key-source }}'
+      env:
+        # Its requireded to set ACTIONS_ALLOW_UNSECURE_COMMANDS=true when running on a self-hosted runner
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+        
