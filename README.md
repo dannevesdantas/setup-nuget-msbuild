@@ -8,9 +8,6 @@ This GitHub action is a combination of [NuGet/setup-nuget](https://github.com/Nu
   uses: dannevesdantas/setup-nuget-msbuild-selfhostrun@v0.1.0
 ```
 
-## Requirements
-This GitHub Action is compatible with Windows based runners only.
-
 # License
 
 The scripts and documentation in this project are released under the [MIT License](LICENSE)
